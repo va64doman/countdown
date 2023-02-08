@@ -1,4 +1,6 @@
 import random
+import simpleaudio as sa
+import time
 
 def numbers_round(numbers, target, solutions, tempSolution): 
      if target in numbers:
@@ -24,6 +26,7 @@ validInput = False
 numbers = []
 solutions = []
 tempSolution = []
+filename = 'countdown.wav'
 
 while not validInput:
      try:
@@ -45,9 +48,16 @@ for i in range(largeSize):
      numbers.append(large.pop(largeIdx))
 
 target = random.randint(100, 999)
-print("You have", str(numbers))
-print("Your target is", str(target))
+print("You have", str(numbers) + ".")
+time.sleep(3)
+print("Your target is", str(target) + ".")
 numbers_round(numbers, target, solutions, tempSolution)
+print("And your time starts now.")
+wave = sa.WaveObject.from_wave_file(filename)
+play = wave.play()
+play.wait_done()
+print("The target was", str(target), ", did you get it? Press enter to see how to get the target.")
+input()
 print("There are", str(len(solutions)), "different solutions.")
 
 if len(solutions) > 0:
@@ -72,3 +82,4 @@ if len(solutions) > 0:
                print(a, " / ", b, " = ", str((int(a) // int(b))))                                    
           else:
                a = elements
+input()
