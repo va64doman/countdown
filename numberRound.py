@@ -18,8 +18,8 @@ def numbers_round(numbers, target, solutions, tempSolution):
      pass
 
 
-large = [25,50,75,100]
-small = sorted([1,2,3,4,5,6,7,8,9,10] * 2)
+large = [i * 25 for i in range(1,5)]
+small = sorted([i for i in range(1,11)] * 2)
 largeSize = -1
 smallSize = -1
 validInput = False
@@ -36,7 +36,6 @@ while not validInput:
           else: print("You need 6 numbers. The maximum number of large numbers is 4 and small numbers is 6. The minimum number of large numbers is 0 and small numbers is 2.")
      except ValueError:
           print("You must enter an integer between 1 to 6 and the total number of large and small number is 6.")
-          pass
 
 
 for i in range(smallSize):
@@ -48,18 +47,19 @@ for i in range(largeSize):
      numbers.append(large.pop(largeIdx))
 
 target = random.randint(100, 999)
-print("You have", str(numbers) + ".")
+print(f"You have {numbers}.")
 time.sleep(3)
-print("Your target is", str(target) + ".")
-numbers_round(numbers, target, solutions, tempSolution)
+print(f"Your target is {target}.")
+time.sleep(3)
 print("And your time starts now.")
 wave = sa.WaveObject.from_wave_file(filename)
 play = wave.play()
 play.wait_done()
-print("The target was", str(target), ", did you get it? Press enter to see how to get the target.")
+print(f"The target was {target}, did you get it? Press enter to see how to get the target.")
 input()
-print("There are", str(len(solutions)), "different solutions.")
 
+numbers_round(numbers, target, solutions, tempSolution)
+print(f"There are {len(solutions)} different solutions.")
 if len(solutions) > 0:
      a = ''
      b = ''
@@ -67,19 +67,20 @@ if len(solutions) > 0:
           if elements == '+':
                idx += 1
                b = solutions[0][idx]
-               print(a, " + ", b, " = ", str((int(a) + int(b))))
+               print(f"{a} + {b} = {int(a) + int(b)}")
           elif elements == '-':
                idx += 1
                b = solutions[0][idx]
-               print(a, " - ", b, " = ", str((int(a) - int(b))))
+               print(f"{a} - {b} = {int(a) - int(b)}")
           elif elements == 'x':
                idx += 1
                b = solutions[0][idx]
-               print(a, " * ", b, " = ", str((int(a) * int(b))))
+               print(f"{a} x {b} = {int(a) * int(b)}")
           elif elements == '/':
                idx += 1
                b = solutions[0][idx]
-               print(a, " / ", b, " = ", str((int(a) // int(b))))                                    
+               print(f"{a} / {b} = {int(a) // int(b)}")                                    
           else:
                a = elements
+
 input()
