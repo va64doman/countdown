@@ -31,11 +31,12 @@ filename = 'countdown.wav'
 while not validInput:
      try:
           largeSize = int(input("How many large numbers? "))
-          smallSize = int(input("How many small numbers? "))
-          if largeSize + smallSize == 6 and (largeSize > -1 and largeSize < 5) and (smallSize > 0 and smallSize < 7): validInput = True
-          else: print("You need 6 numbers. The maximum number of large numbers is 4 and small numbers is 6. The minimum number of large numbers is 0 and small numbers is 2.")
+          if largeSize < 0 or largeSize > 4: print("You must have 0 to 4 large numbers.")
+          else:
+               smallSize = 6 - largeSize
+               validInput = True
      except ValueError:
-          print("You must enter an integer between 1 to 6 and the total number of large and small number is 6.")
+          print("You must enter an integer between 0 to 4 inclusively.")
 
 
 for i in range(smallSize):
