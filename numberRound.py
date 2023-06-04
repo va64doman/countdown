@@ -23,65 +23,89 @@ small = sorted([i for i in range(1,11)] * 2)
 largeSize = -1
 smallSize = -1
 validInput = False
+keepPlaying = True
 numbers = []
 solutions = []
 tempSolution = []
 filename = 'countdown.wav'
 
-while not validInput:
-     try:
-          largeSize = int(input("How many large numbers? "))
-          if largeSize < 0 or largeSize > 4: print("You must have 0 to 4 large numbers.")
-          else:
-               smallSize = 6 - largeSize
+while keepPlaying:
+     while not validInput:
+          try:
+               largeSize = int(input("How many large numbers? "))
+               if largeSize < 0 or largeSize > 4: print("You must have 0 to 4 large numbers.")
+               else:
+                    smallSize = 6 - largeSize
+                    validInput = True
+          except ValueError:
+               print("You must enter an integer between 0 to 4 inclusively.")
+
+
+     for i in range(smallSize):
+          smallIdx = random.randint(0, len(small) - 1)
+          numbers.append(small.pop(smallIdx))
+
+     for i in range(largeSize):
+          largeIdx = random.randint(0, len(large) - 1)
+          numbers.append(large.pop(largeIdx))
+
+     target = random.randint(100, 999)
+     print(f"You have {numbers}.")
+     time.sleep(3)
+     print(f"Your target is {target}.")
+     time.sleep(3)
+     print("And your time starts now.")
+     wave = sa.WaveObject.from_wave_file(filename)
+     play = wave.play()
+     count = 0
+     time.sleep(2)
+     while play.is_playing():
+          count += 1
+          if count < 31: print(count)
+          time.sleep(1)     
+     print(f"The target was {target}, did you get it? Press enter to see how to get the target.")
+     input()
+
+     numbers_round(numbers, target, solutions, tempSolution)
+     print(f"There are {len(solutions)} different solutions.")
+     if len(solutions) > 0:
+          a = ''
+          b = ''
+          for idx, elements in enumerate(solutions[0]):
+               if elements == '+':
+                    idx += 1
+                    b = solutions[0][idx]
+                    print(f"{a} + {b} = {int(a) + int(b)}")
+               elif elements == '-':
+                    idx += 1
+                    b = solutions[0][idx]
+                    print(f"{a} - {b} = {int(a) - int(b)}")
+               elif elements == 'x':
+                    idx += 1
+                    b = solutions[0][idx]
+                    print(f"{a} x {b} = {int(a) * int(b)}")
+               elif elements == '/':
+                    idx += 1
+                    b = solutions[0][idx]
+                    print(f"{a} / {b} = {int(a) // int(b)}")                                    
+               else:
+                    a = elements
+
+
+     print()
+     validInput = False
+     while not validInput:
+          try:
+               choice = int(input("Do you want to play again? Yes (1) or No (any number) "))
+               if choice != 1: keepPlaying = False
                validInput = True
-     except ValueError:
-          print("You must enter an integer between 0 to 4 inclusively.")
-
-
-for i in range(smallSize):
-     smallIdx = random.randint(0, len(small) - 1)
-     numbers.append(small.pop(smallIdx))
-
-for i in range(largeSize):
-     largeIdx = random.randint(0, len(large) - 1)
-     numbers.append(large.pop(largeIdx))
-
-target = random.randint(100, 999)
-print(f"You have {numbers}.")
-time.sleep(3)
-print(f"Your target is {target}.")
-time.sleep(3)
-print("And your time starts now.")
-wave = sa.WaveObject.from_wave_file(filename)
-play = wave.play()
-play.wait_done()
-print(f"The target was {target}, did you get it? Press enter to see how to get the target.")
-input()
-
-numbers_round(numbers, target, solutions, tempSolution)
-print(f"There are {len(solutions)} different solutions.")
-if len(solutions) > 0:
-     a = ''
-     b = ''
-     for idx, elements in enumerate(solutions[0]):
-          if elements == '+':
-               idx += 1
-               b = solutions[0][idx]
-               print(f"{a} + {b} = {int(a) + int(b)}")
-          elif elements == '-':
-               idx += 1
-               b = solutions[0][idx]
-               print(f"{a} - {b} = {int(a) - int(b)}")
-          elif elements == 'x':
-               idx += 1
-               b = solutions[0][idx]
-               print(f"{a} x {b} = {int(a) * int(b)}")
-          elif elements == '/':
-               idx += 1
-               b = solutions[0][idx]
-               print(f"{a} / {b} = {int(a) // int(b)}")                                    
-          else:
-               a = elements
-
-input()
+          except ValueError:
+               print("You must enter an integer.")
+     large = [i * 25 for i in range(1,5)]
+     small = sorted([i for i in range(1,11)] * 2)
+     validInput = False
+     largeSize = -1
+     smallSize = -1
+     numbers = []
+     solutions = []
+     tempSolution = []
